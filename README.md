@@ -1,10 +1,12 @@
 ```
 $ cp .env.template .env
+
 # Edit the content of `.env` as per the comments/instructions therein.
 ```
 
 the remainder of this description will explain how to
-use `localhost` (= the local network interface) to serve the Django application
+use Docker to serve the persistence layer,
+but use `localhost` (= the local network interface) to serve the Django application
 
 ---
 
@@ -17,6 +19,35 @@ $ source venv/bin/activate
 (venv) $ pip install --upgrade pip
 (venv) $ pip install -r requirements.txt
 ```
+
+```
+docker run \
+    --name container-w-a-v-d-postgres \
+    --mount source=volume-w-a-v-d-postgres,destination=/var/lib/postgresql/data \
+    --env-file .env \
+    --publish 5432:5432 \
+    postgres:15.1
+```
+
+(
+
+OPTIONALLY, verify that the previous step did start serving a PostgreSQL server:
+
+```
+$ docker container exec -it container-w-a-v-d-postgres /bin/bash
+root@<container-id> psql \
+    --host=localhost \
+    --port=5432 \
+    --username=<the-value-for-POSTGRES_USER-in-the-.env-file> \
+    --password \
+    <the-value-for-POSTGRES_DB-in-the-.env-file>
+<the-value-for-POSTGRES_DB-in-the-.env-file>=# \d
+Did not find any relations.
+```
+
+)
+
+---
 
 ```
 # Launch one terminal instance and, in it, start serving the application:
