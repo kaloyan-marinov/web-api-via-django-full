@@ -1,4 +1,12 @@
-use `localhost` (= the local network interface) to serve the Django application:
+```
+$ cp .env.template .env
+# Edit the content of `.env` as per the comments/instructions therein.
+```
+
+the remainder of this description will explain how to
+use `localhost` (= the local network interface) to serve the Django application
+
+---
 
 ```
 $ python3 --version
