@@ -1,6 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework import routers
+
+
+d_r = routers.DefaultRouter()
+d_r.register("languages", views.LanguageView)
+
 
 urlpatterns = [
-    path("", views.hello_world, name="hello-world"),
+    path("", include(d_r.urls)),
 ]
