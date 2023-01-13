@@ -94,10 +94,11 @@ $ http POST localhost:8000/api/languages/ \
 
 HTTP/1.1 201 Created
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 43
+Content-Length: 90
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 04:56:05 GMT
+Date: Fri, 13 Jan 2023 05:41:46 GMT
+Location: http://localhost:8000/api/languages/1/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -107,7 +108,8 @@ X-Frame-Options: DENY
 {
     "id": 1,
     "name": "C",
-    "paradigm": "procedural"
+    "paradigm": "procedural",
+    "url": "http://localhost:8000/api/languages/1/"
 }
 
 $ http POST localhost:8000/api/languages/ \
@@ -116,10 +118,11 @@ $ http POST localhost:8000/api/languages/ \
 
 HTTP/1.1 201 Created
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 51
+Content-Length: 98
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 04:56:28 GMT
+Date: Fri, 13 Jan 2023 05:42:15 GMT
+Location: http://localhost:8000/api/languages/2/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -129,7 +132,8 @@ X-Frame-Options: DENY
 {
     "id": 2,
     "name": "Java",
-    "paradigm": "object-oriented"
+    "paradigm": "object-oriented",
+    "url": "http://localhost:8000/api/languages/2/"
 }
 
 $ http POST localhost:8000/api/languages/ \
@@ -138,10 +142,11 @@ $ http POST localhost:8000/api/languages/ \
 
 HTTP/1.1 201 Created
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 53
+Content-Length: 100
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 04:57:03 GMT
+Date: Fri, 13 Jan 2023 05:43:01 GMT
+Location: http://localhost:8000/api/languages/3/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -151,7 +156,8 @@ X-Frame-Options: DENY
 {
     "id": 3,
     "name": "C++",
-    "paradigm": "object-orientedddd"
+    "paradigm": "object-orientedddd",
+    "url": "http://localhost:8000/api/languages/3/"
 }
 
 
@@ -164,7 +170,7 @@ Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 36
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 04:57:55 GMT
+Date: Fri, 13 Jan 2023 05:43:25 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -182,10 +188,10 @@ $ http PATCH localhost:8000/api/languages/3/ \
 
 HTTP/1.1 200 OK
 Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
-Content-Length: 50
+Content-Length: 97
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 04:58:22 GMT
+Date: Fri, 13 Jan 2023 05:44:08 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -195,7 +201,8 @@ X-Frame-Options: DENY
 {
     "id": 3,
     "name": "C++",
-    "paradigm": "object-oriented"
+    "paradigm": "object-oriented",
+    "url": "http://localhost:8000/api/languages/3/"
 }
 
 
@@ -204,10 +211,10 @@ $ http localhost:8000/api/languages/
 
 HTTP/1.1 200 OK
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 148
+Content-Length: 289
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:00:44 GMT
+Date: Fri, 13 Jan 2023 05:44:50 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -218,17 +225,20 @@ X-Frame-Options: DENY
     {
         "id": 1,
         "name": "C",
-        "paradigm": "procedural"
+        "paradigm": "procedural",
+        "url": "http://localhost:8000/api/languages/1/"
     },
     {
         "id": 2,
         "name": "Java",
-        "paradigm": "object-oriented"
+        "paradigm": "object-oriented",
+        "url": "http://localhost:8000/api/languages/2/"
     },
     {
         "id": 3,
         "name": "C++",
-        "paradigm": "object-oriented"
+        "paradigm": "object-oriented",
+        "url": "http://localhost:8000/api/languages/3/"
     }
 ]
 
@@ -240,7 +250,7 @@ HTTP/1.1 204 No Content
 Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 0
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:01:21 GMT
+Date: Fri, 13 Jan 2023 05:45:16 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -251,10 +261,10 @@ $ http localhost:8000/api/languages/
 
 HTTP/1.1 200 OK
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 96
+Content-Length: 190
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:01:49 GMT
+Date: Fri, 13 Jan 2023 05:45:29 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -265,12 +275,14 @@ X-Frame-Options: DENY
     {
         "id": 1,
         "name": "C",
-        "paradigm": "procedural"
+        "paradigm": "procedural",
+        "url": "http://localhost:8000/api/languages/1/"
     },
     {
         "id": 3,
         "name": "C++",
-        "paradigm": "object-oriented"
+        "paradigm": "object-oriented",
+        "url": "http://localhost:8000/api/languages/3/"
     }
 ]
 ```
