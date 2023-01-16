@@ -51,6 +51,54 @@ Did not find any relations.
 (venv) $ python manage.py migrate
 ```
 
+(
+
+OPTIONALLY, verify that the previous step did create the following tables:
+
+```
+$ docker container exec -it container-w-a-v-d-postgres /bin/bash
+root@<container-id> psql \
+    --host=localhost \
+    --port=5432 \
+    --username=<the-value-for-POSTGRES_USER-in-the-.env-file> \
+    --password \
+    <the-value-for-POSTGRES_DB-in-the-.env-file>
+<the-value-for-POSTGRES_DB-in-the-.env-file>=# \d
+                             List of relations
+ Schema |                  Name                   |   Type   |    Owner    
+--------+-----------------------------------------+----------+-------------
+ public | api_example_language                    | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | api_example_language_id_seq             | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | api_example_paradigm                    | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | api_example_paradigm_id_seq             | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | api_example_programmer                  | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | api_example_programmer_id_seq           | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | api_example_programmer_languages        | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | api_example_programmer_languages_id_seq | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_group                              | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_group_id_seq                       | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_group_permissions                  | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_group_permissions_id_seq           | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_permission                         | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_permission_id_seq                  | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_user                               | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_user_groups                        | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_user_groups_id_seq                 | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_user_id_seq                        | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_user_user_permissions              | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | auth_user_user_permissions_id_seq       | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | django_admin_log                        | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | django_admin_log_id_seq                 | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | django_content_type                     | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | django_content_type_id_seq              | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | django_migrations                       | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | django_migrations_id_seq                | sequence | <the-value-for-POSTGRES_USER-in-the-.env-file>
+ public | django_session                          | table    | <the-value-for-POSTGRES_USER-in-the-.env-file>
+(27 rows)
+```
+
+)
+
 ---
 
 ```
