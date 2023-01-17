@@ -4,7 +4,7 @@
 # https://www.django-rest-framework.org/tutorial/2-requests-and-responses/#wrapping-api-views .
 # The following statement imports a symbol, which
 # makes it possible to implement request-handling functions in a class-based way.
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .models import Paradigm, Language, Programmer
 from .serializers import ParadigmSerializer, LanguageSerializer, ProgrammerSerializer
 
@@ -12,6 +12,10 @@ from .serializers import ParadigmSerializer, LanguageSerializer, ProgrammerSeria
 class ParadigmView(viewsets.ModelViewSet):
     queryset = Paradigm.objects.all()
     serializer_class = ParadigmSerializer
+    # permission_classes = (
+    #     # permissions.IsAuthenticatedOrReadOnly,
+    #     permissions.IsAuthenticated,
+    # )
 
 
 class LanguageView(viewsets.ModelViewSet):

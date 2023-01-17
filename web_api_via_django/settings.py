@@ -134,3 +134,23 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": (
+        # "rest_framework.permissions.AllowAny",  # This is the default.
+        # "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+        "rest_framework.permissions.IsAuthenticated",
+        # "rest_framework.permissions.IsAdmin",
+    ),
+}
+# fmt: off
+'''
+It can also get more complex depending on your particular use case,
+because you can do something like "object-level permissions"
+so certain users can only modify certain data in a table
+(
+= so instead of the entire table being available ...,
+    the user can only read and edit specific [rows] in a table
+).
+'''
+# fmt: on
