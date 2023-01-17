@@ -120,10 +120,10 @@ $ http localhost:8000/api/
 
 HTTP/1.1 200 OK
 Allow: GET, HEAD, OPTIONS
-Content-Length: 52
+Content-Length: 158
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 04:53:30 GMT
+Date: Mon, 16 Jan 2023 06:42:54 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -131,21 +131,211 @@ X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
 {
-    "languages": "http://localhost:8000/api/languages/"
+    "languages": "http://localhost:8000/api/languages/",
+    "paradigms": "http://localhost:8000/api/paradigms/",
+    "programmers": "http://localhost:8000/api/programmers/"
 }
+
+
+
+$ http POST localhost:8000/api/paradigms/ \
+    name=procedural
+
+HTTP/1.1 201 Created
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 75
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:45:42 GMT
+Location: http://localhost:8000/api/paradigms/1/
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 1,
+    "name": "procedural",
+    "url": "http://localhost:8000/api/paradigms/1/"
+}
+
+$ http POST localhost:8000/api/paradigms/ \
+    name=functional
+
+HTTP/1.1 201 Created
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 75
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:46:31 GMT
+Location: http://localhost:8000/api/paradigms/2/
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 2,
+    "name": "functional",
+    "url": "http://localhost:8000/api/paradigms/2/"
+}
+
+$ http POST localhost:8000/api/paradigms/ \
+    name=object-orientedddd
+
+HTTP/1.1 201 Created
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 83
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:47:09 GMT
+Location: http://localhost:8000/api/paradigms/3/
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 3,
+    "name": "object-orientedddd",
+    "url": "http://localhost:8000/api/paradigms/3/"
+}
+
+
+
+$ http PUT localhost:8000/api/paradigms/3/ \
+    name=object-orienteD
+
+HTTP/1.1 200 OK
+Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+Content-Length: 80
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:48:00 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 3,
+    "name": "object-orienteD",
+    "url": "http://localhost:8000/api/paradigms/3/"
+}
+
+$ http PATCH localhost:8000/api/paradigms/3/ \
+    name=object-oriented
+
+HTTP/1.1 200 OK
+Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+Content-Length: 80
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:48:28 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 3,
+    "name": "object-oriented",
+    "url": "http://localhost:8000/api/paradigms/3/"
+}
+
+
+
+$ http localhost:8000/api/paradigms/
+
+HTTP/1.1 200 OK
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 234
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:48:50 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+[
+    {
+        "id": 1,
+        "name": "procedural",
+        "url": "http://localhost:8000/api/paradigms/1/"
+    },
+    {
+        "id": 2,
+        "name": "functional",
+        "url": "http://localhost:8000/api/paradigms/2/"
+    },
+    {
+        "id": 3,
+        "name": "object-oriented",
+        "url": "http://localhost:8000/api/paradigms/3/"
+    }
+]
+
+
+
+$ http DELETE localhost:8000/api/paradigms/2/
+
+HTTP/1.1 204 No Content
+Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+Content-Length: 0
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:50:29 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+$ http localhost:8000/api/paradigms/
+
+HTTP/1.1 200 OK
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 158
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 06:50:45 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+[
+    {
+        "id": 1,
+        "name": "procedural",
+        "url": "http://localhost:8000/api/paradigms/1/"
+    },
+    {
+        "id": 3,
+        "name": "object-oriented",
+        "url": "http://localhost:8000/api/paradigms/3/"
+    }
+]
 
 
 
 $ http POST localhost:8000/api/languages/ \
     name=C \
-    paradigm=procedural
+    paradigm=http://localhost:8000/api/paradigms/1/
 
 HTTP/1.1 201 Created
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 90
+Content-Length: 118
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:41:46 GMT
+Date: Mon, 16 Jan 2023 06:55:46 GMT
 Location: http://localhost:8000/api/languages/1/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
@@ -156,20 +346,20 @@ X-Frame-Options: DENY
 {
     "id": 1,
     "name": "C",
-    "paradigm": "procedural",
+    "paradigm": "http://localhost:8000/api/paradigms/1/",
     "url": "http://localhost:8000/api/languages/1/"
 }
 
 $ http POST localhost:8000/api/languages/ \
-    name=Java \
-    paradigm=object-oriented
+    name=Jave \
+    paradigm=http://localhost:8000/api/paradigms/3/
 
 HTTP/1.1 201 Created
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 98
+Content-Length: 121
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:42:15 GMT
+Date: Mon, 16 Jan 2023 06:56:42 GMT
 Location: http://localhost:8000/api/languages/2/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
@@ -179,21 +369,21 @@ X-Frame-Options: DENY
 
 {
     "id": 2,
-    "name": "Java",
-    "paradigm": "object-oriented",
+    "name": "Jave",
+    "paradigm": "http://localhost:8000/api/paradigms/3/",
     "url": "http://localhost:8000/api/languages/2/"
 }
 
 $ http POST localhost:8000/api/languages/ \
-    name=C++ \
-    paradigm=object-orientedddd
+    name=PHP \
+    paradigm=http://localhost:8000/api/paradigms/1/
 
 HTTP/1.1 201 Created
 Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 100
+Content-Length: 120
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:43:01 GMT
+Date: Mon, 16 Jan 2023 06:58:54 GMT
 Location: http://localhost:8000/api/languages/3/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
@@ -203,22 +393,20 @@ X-Frame-Options: DENY
 
 {
     "id": 3,
-    "name": "C++",
-    "paradigm": "object-orientedddd",
+    "name": "PHP",
+    "paradigm": "http://localhost:8000/api/paradigms/1/",
     "url": "http://localhost:8000/api/languages/3/"
 }
 
-
-
-$ http PUT localhost:8000/api/languages/3/ \
-    paradigm=object-oriented
+$ http PUT localhost:8000/api/languages/2/ \
+    name=Java
 
 HTTP/1.1 400 Bad Request
 Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
-Content-Length: 36
+Content-Length: 40
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:43:25 GMT
+Date: Mon, 16 Jan 2023 07:00:23 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -226,20 +414,176 @@ X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
 {
-    "name": [
+    "paradigm": [
         "This field is required."
     ]
 }
 
-$ http PATCH localhost:8000/api/languages/3/ \
-    paradigm=object-oriented
+$ http PATCH localhost:8000/api/languages/2/ \
+    name=Java
 
 HTTP/1.1 200 OK
 Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
-Content-Length: 97
+Content-Length: 121
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:44:08 GMT
+Date: Mon, 16 Jan 2023 07:00:57 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 2,
+    "name": "Java",
+    "paradigm": "http://localhost:8000/api/paradigms/3/",
+    "url": "http://localhost:8000/api/languages/2/"
+}
+
+
+
+$ http POST localhost:8000/api/programmers/ \
+    name=Anthony
+
+HTTP/1.1 400 Bad Request
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 41
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 19:32:19 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "languages": [
+        "This field is required."
+    ]
+}
+
+$ http --verbose POST localhost:8000/api/programmers/ \
+    name=Anthony \
+    languages:='["http://localhost:8000/api/languages/1/", "http://localhost:8000/api/languages/2/"]'
+
+POST /api/programmers/ HTTP/1.1
+Accept: application/json, */*;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 118
+Content-Type: application/json
+Host: localhost:8000
+User-Agent: HTTPie/2.6.0
+
+{
+    "languages": [
+        "http://localhost:8000/api/languages/1/",
+        "http://localhost:8000/api/languages/2/"
+    ],
+    "name": "Anthony"
+}
+
+
+HTTP/1.1 201 Created
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 170
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 19:32:50 GMT
+Location: http://localhost:8000/api/programmers/1/
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 1,
+    "languages": [
+        "http://localhost:8000/api/languages/1/",
+        "http://localhost:8000/api/languages/2/"
+    ],
+    "name": "Anthony",
+    "url": "http://localhost:8000/api/programmers/1/"
+}
+
+$ http --verbose POST localhost:8000/api/programmers/ \
+    name=Stacy \
+    languages:='["http://localhost:8000/api/languages/2/", "http://localhost:8000/api/languages/3/"]'
+
+POST /api/programmers/ HTTP/1.1
+Accept: application/json, */*;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 116
+Content-Type: application/json
+Host: localhost:8000
+User-Agent: HTTPie/2.6.0
+
+{
+    "languages": [
+        "http://localhost:8000/api/languages/2/",
+        "http://localhost:8000/api/languages/3/"
+    ],
+    "name": "Stacy"
+}
+
+
+HTTP/1.1 201 Created
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 168
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 19:33:30 GMT
+Location: http://localhost:8000/api/programmers/2/
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept, Cookie
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "id": 2,
+    "languages": [
+        "http://localhost:8000/api/languages/3/",
+        "http://localhost:8000/api/languages/2/"
+    ],
+    "name": "Stacy",
+    "url": "http://localhost:8000/api/programmers/2/"
+}
+
+$ http --verbose POST localhost:8000/api/programmers/ \
+    name=Zoe \
+    languages:='["http://localhost:8000/api/languages/1/", "http://localhost:8000/api/languages/2/", "http://localhost:8000/api/languages/3/"]'
+
+POST /api/programmers/ HTTP/1.1
+Accept: application/json, */*;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 156
+Content-Type: application/json
+Host: localhost:8000
+User-Agent: HTTPie/2.6.0
+
+{
+    "languages": [
+        "http://localhost:8000/api/languages/1/",
+        "http://localhost:8000/api/languages/2/",
+        "http://localhost:8000/api/languages/3/"
+    ],
+    "name": "Zoe"
+}
+
+
+HTTP/1.1 201 Created
+Allow: GET, POST, HEAD, OPTIONS
+Content-Length: 207
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Mon, 16 Jan 2023 19:34:41 GMT
+Location: http://localhost:8000/api/programmers/3/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
@@ -248,89 +592,35 @@ X-Frame-Options: DENY
 
 {
     "id": 3,
-    "name": "C++",
-    "paradigm": "object-oriented",
-    "url": "http://localhost:8000/api/languages/3/"
+    "languages": [
+        "http://localhost:8000/api/languages/1/",
+        "http://localhost:8000/api/languages/3/",
+        "http://localhost:8000/api/languages/2/"
+    ],
+    "name": "Zoe",
+    "url": "http://localhost:8000/api/programmers/3/"
 }
 
 
 
-$ http localhost:8000/api/languages/
+$ http --verbose DELETE localhost:8000/api/programmers/2/
 
-HTTP/1.1 200 OK
-Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 289
-Content-Type: application/json
-Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:44:50 GMT
-Referrer-Policy: same-origin
-Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-
-[
-    {
-        "id": 1,
-        "name": "C",
-        "paradigm": "procedural",
-        "url": "http://localhost:8000/api/languages/1/"
-    },
-    {
-        "id": 2,
-        "name": "Java",
-        "paradigm": "object-oriented",
-        "url": "http://localhost:8000/api/languages/2/"
-    },
-    {
-        "id": 3,
-        "name": "C++",
-        "paradigm": "object-oriented",
-        "url": "http://localhost:8000/api/languages/3/"
-    }
-]
-
-
-
-$ http DELETE localhost:8000/api/languages/2/
+DELETE /api/programmers/2/ HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 0
+Host: localhost:8000
+User-Agent: HTTPie/2.6.0
 
 HTTP/1.1 204 No Content
 Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 0
 Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:45:16 GMT
+Date: Mon, 16 Jan 2023 19:37:34 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
 Vary: Accept, Cookie
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
-
-$ http localhost:8000/api/languages/
-
-HTTP/1.1 200 OK
-Allow: GET, POST, HEAD, OPTIONS
-Content-Length: 190
-Content-Type: application/json
-Cross-Origin-Opener-Policy: same-origin
-Date: Fri, 13 Jan 2023 05:45:29 GMT
-Referrer-Policy: same-origin
-Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
-X-Content-Type-Options: nosniff
-X-Frame-Options: DENY
-
-[
-    {
-        "id": 1,
-        "name": "C",
-        "paradigm": "procedural",
-        "url": "http://localhost:8000/api/languages/1/"
-    },
-    {
-        "id": 3,
-        "name": "C++",
-        "paradigm": "object-oriented",
-        "url": "http://localhost:8000/api/languages/3/"
-    }
-]
 ```
