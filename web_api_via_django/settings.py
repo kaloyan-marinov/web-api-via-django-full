@@ -142,9 +142,15 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
         # "rest_framework.permissions.IsAdmin",
     ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
 }
 # fmt: off
 '''
+[
+With regard to the value specified for "DEFAULT_PERMISSION_CLASSES":
+]
 It can also get more complex depending on your particular use case,
 because you can do something like "object-level permissions"
 so certain users can only modify certain data in a table
@@ -152,5 +158,11 @@ so certain users can only modify certain data in a table
 = so instead of the entire table being available ...,
     the user can only read and edit specific [rows] in a table
 ).
+
+[
+With regard to the value specified for "DEFAULT_AUTHENTICATION_CLASSES":
+]
+The _actual_ default is "SimpleLogin"
+which allows you to use the "Log In" link shown in the web browser.
 '''
 # fmt: on

@@ -118,15 +118,16 @@ root@<container-id> psql \
 
 $ http localhost:8000/api/
 
-HTTP/1.1 403 Forbidden
+HTTP/1.1 401 Unauthorized
 Allow: GET, HEAD, OPTIONS
 Content-Length: 58
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:37:33 GMT
+Date: Tue, 17 Jan 2023 06:45:35 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
+WWW-Authenticate: Bearer realm="api"
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -145,19 +146,89 @@ $ export PASSWORD=<enter-the-password-that-you-provided-while-responding-to-the-
 
 
 
-$  http \
+$ http \
     --auth ${USERNAME}:${PASSWORD} \
     localhost:8000/api/
+
+HTTP/1.1 401 Unauthorized
+Allow: GET, HEAD, OPTIONS
+Content-Length: 58
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Tue, 17 Jan 2023 06:46:48 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept
+WWW-Authenticate: Bearer realm="api"
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "detail": "Authentication credentials were not provided."
+}
+
+$ http \
+    --auth ${USERNAME}:${PASSWORD} \
+    POST localhost:8000/api/token/
+
+HTTP/1.1 400 Bad Request
+Allow: POST, OPTIONS
+Content-Length: 79
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Tue, 17 Jan 2023 06:47:58 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "password": [
+        "This field is required."
+    ],
+    "username": [
+        "This field is required."
+    ]
+}
+
+$ http \
+    POST localhost:8000/api/token/ \
+    username=${USERNAME} \
+    password=${PASSWORD}
+
+HTTP/1.1 200 OK
+Allow: POST, OPTIONS
+Content-Length: 483
+Content-Type: application/json
+Cross-Origin-Opener-Policy: same-origin
+Date: Tue, 17 Jan 2023 06:49:02 GMT
+Referrer-Policy: same-origin
+Server: WSGIServer/0.2 CPython/3.8.3
+Vary: Accept
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+
+{
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjczOTM4NDQyLCJpYXQiOjE2NzM5MzgxNDIsImp0aSI6ImFlN2FlMmUzNjEyODQwZGY4NDY2ZDBmYWY4ZWNjOTEzIiwidXNlcl9pZCI6MX0.8yiNGrlQk7hv02or9bmUeZI-9P6j_xCcfNPaQQwAuTc",
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY3NDAyNDU0MiwiaWF0IjoxNjczOTM4MTQyLCJqdGkiOiIzYWNjMzcxN2M5ZDg0MjU2OTZjMjZmNmRkZTMwZTk1MSIsInVzZXJfaWQiOjF9.TayCKr6j5h9-D4Bx3Tyn-HJDDSGhxwKysSARQsyZhiY"
+}
+
+$ export ACCESS_TOKEN=<enter-the-value-of-the-generated-access-token>
+
+$ http \
+    localhost:8000/api/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}"
 
 HTTP/1.1 200 OK
 Allow: GET, HEAD, OPTIONS
 Content-Length: 158
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:41:34 GMT
+Date: Tue, 17 Jan 2023 06:51:32 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -170,8 +241,8 @@ X-Frame-Options: DENY
 
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/paradigms/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=procedural
 
 HTTP/1.1 201 Created
@@ -179,11 +250,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 75
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:48:36 GMT
+Date: Tue, 17 Jan 2023 06:53:23 GMT
 Location: http://localhost:8000/api/paradigms/1/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -194,8 +265,8 @@ X-Frame-Options: DENY
 }
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/paradigms/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=functional
 
 HTTP/1.1 201 Created
@@ -203,11 +274,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 75
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:52:28 GMT
+Date: Tue, 17 Jan 2023 06:53:58 GMT
 Location: http://localhost:8000/api/paradigms/2/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -218,8 +289,8 @@ X-Frame-Options: DENY
 }
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/paradigms/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=object-orientedddd
 
 HTTP/1.1 201 Created
@@ -227,11 +298,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 83
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:52:50 GMT
+Date: Tue, 17 Jan 2023 06:55:12 GMT
 Location: http://localhost:8000/api/paradigms/3/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -244,8 +315,8 @@ X-Frame-Options: DENY
 
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     PUT localhost:8000/api/paradigms/3/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=object-orienteD
 
 HTTP/1.1 200 OK
@@ -253,10 +324,10 @@ Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 80
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:53:29 GMT
+Date: Tue, 17 Jan 2023 06:55:51 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -267,8 +338,8 @@ X-Frame-Options: DENY
 }
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     PATCH localhost:8000/api/paradigms/3/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=object-oriented
 
 HTTP/1.1 200 OK
@@ -276,10 +347,10 @@ Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 80
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:54:02 GMT
+Date: Tue, 17 Jan 2023 06:56:20 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -292,18 +363,19 @@ X-Frame-Options: DENY
 
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
-    localhost:8000/api/paradigms/
+    localhost:8000/api/paradigms/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}"
+
 
 HTTP/1.1 200 OK
 Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 234
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:54:32 GMT
+Date: Tue, 17 Jan 2023 06:57:01 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -328,33 +400,33 @@ X-Frame-Options: DENY
 
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
-    DELETE localhost:8000/api/paradigms/2/
+    DELETE localhost:8000/api/paradigms/2/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}"
 
 HTTP/1.1 204 No Content
 Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 0
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:55:12 GMT
+Date: Tue, 17 Jan 2023 06:57:44 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
-    localhost:8000/api/paradigms/
+    localhost:8000/api/paradigms/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}"
 
 HTTP/1.1 200 OK
 Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 158
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:55:31 GMT
+Date: Tue, 17 Jan 2023 06:58:10 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -374,8 +446,8 @@ X-Frame-Options: DENY
 
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/languages/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=C \
     paradigm=http://localhost:8000/api/paradigms/1/
 
@@ -384,11 +456,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 118
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:56:17 GMT
+Date: Tue, 17 Jan 2023 06:59:45 GMT
 Location: http://localhost:8000/api/languages/1/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -400,8 +472,8 @@ X-Frame-Options: DENY
 }
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/languages/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=Jave \
     paradigm=http://localhost:8000/api/paradigms/3/
 
@@ -410,11 +482,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 121
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:56:36 GMT
+Date: Tue, 17 Jan 2023 07:01:17 GMT
 Location: http://localhost:8000/api/languages/2/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -426,8 +498,8 @@ X-Frame-Options: DENY
 }
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/languages/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=PHP \
     paradigm=http://localhost:8000/api/paradigms/1/
 
@@ -436,11 +508,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 120
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:56:50 GMT
+Date: Tue, 17 Jan 2023 07:01:55 GMT
 Location: http://localhost:8000/api/languages/3/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -452,8 +524,8 @@ X-Frame-Options: DENY
 }
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     PUT localhost:8000/api/languages/2/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=Java
 
 HTTP/1.1 400 Bad Request
@@ -461,10 +533,10 @@ Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 40
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:57:38 GMT
+Date: Tue, 17 Jan 2023 07:02:29 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -475,8 +547,8 @@ X-Frame-Options: DENY
 }
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     PATCH localhost:8000/api/languages/2/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=Java
 
 HTTP/1.1 200 OK
@@ -484,10 +556,10 @@ Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 121
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:58:26 GMT
+Date: Tue, 17 Jan 2023 07:03:11 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -501,8 +573,8 @@ X-Frame-Options: DENY
 
 
 $ http \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/programmers/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=Anthony
 
 HTTP/1.1 400 Bad Request
@@ -510,10 +582,10 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 41
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 05:59:28 GMT
+Date: Tue, 17 Jan 2023 07:03:46 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -524,15 +596,15 @@ X-Frame-Options: DENY
 }
 
 $ http --verbose \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/programmers/ \
     name=Anthony \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     languages:='["http://localhost:8000/api/languages/1/", "http://localhost:8000/api/languages/2/"]'
 
 POST /api/programmers/ HTTP/1.1
 Accept: application/json, */*;q=0.5
 Accept-Encoding: gzip, deflate
-Authorization: Basic amQ6MTIz
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjczOTM5MTYxLCJpYXQiOjE2NzM5Mzg4NjEsImp0aSI6IjU2MmRkOWQxY2EwMzRkZGY5MDNmMmIwNmE2YzZlYmZhIiwidXNlcl9pZCI6MX0.v-W8la2CBfIcDnX-DzccFTei4aXOC_AXrPVaQ4jSpdw
 Connection: keep-alive
 Content-Length: 118
 Content-Type: application/json
@@ -553,11 +625,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 170
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 06:00:07 GMT
+Date: Tue, 17 Jan 2023 07:05:03 GMT
 Location: http://localhost:8000/api/programmers/1/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -572,15 +644,15 @@ X-Frame-Options: DENY
 }
 
 $ http --verbose \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/programmers/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=Stacy \
     languages:='["http://localhost:8000/api/languages/2/", "http://localhost:8000/api/languages/3/"]'
 
 POST /api/programmers/ HTTP/1.1
 Accept: application/json, */*;q=0.5
 Accept-Encoding: gzip, deflate
-Authorization: Basic amQ6MTIz
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjczOTM5MTYxLCJpYXQiOjE2NzM5Mzg4NjEsImp0aSI6IjU2MmRkOWQxY2EwMzRkZGY5MDNmMmIwNmE2YzZlYmZhIiwidXNlcl9pZCI6MX0.v-W8la2CBfIcDnX-DzccFTei4aXOC_AXrPVaQ4jSpdw
 Connection: keep-alive
 Content-Length: 116
 Content-Type: application/json
@@ -601,11 +673,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 168
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 06:01:28 GMT
+Date: Tue, 17 Jan 2023 07:05:52 GMT
 Location: http://localhost:8000/api/programmers/2/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -620,14 +692,15 @@ X-Frame-Options: DENY
 }
 
 $ http --verbose \
-    --auth ${USERNAME}:${PASSWORD} \
     POST localhost:8000/api/programmers/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}" \
     name=Zoe \
     languages:='["http://localhost:8000/api/languages/1/", "http://localhost:8000/api/languages/2/", "http://localhost:8000/api/languages/3/"]'
+
 POST /api/programmers/ HTTP/1.1
 Accept: application/json, */*;q=0.5
 Accept-Encoding: gzip, deflate
-Authorization: Basic amQ6MTIz
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjczOTM5NTQ0LCJpYXQiOjE2NzM5MzkyNDQsImp0aSI6ImMzOGQzYWMyNzVkMDQ5N2ViMzVlYmZlMzcxYzU3MzMyIiwidXNlcl9pZCI6MX0.R4mlPcPJqD9WPhO2ifcAiX6L428xiI1FESkt9Vmm2FM
 Connection: keep-alive
 Content-Length: 156
 Content-Type: application/json
@@ -649,11 +722,11 @@ Allow: GET, POST, HEAD, OPTIONS
 Content-Length: 207
 Content-Type: application/json
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 06:02:14 GMT
+Date: Tue, 17 Jan 2023 07:07:44 GMT
 Location: http://localhost:8000/api/programmers/3/
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 
@@ -671,13 +744,13 @@ X-Frame-Options: DENY
 
 
 $ http --verbose \
-    --auth ${USERNAME}:${PASSWORD} \
-    DELETE localhost:8000/api/programmers/2/
+    DELETE localhost:8000/api/programmers/2/ \
+    Authorization:"Bearer ${ACCESS_TOKEN}"
 
 DELETE /api/programmers/2/ HTTP/1.1
 Accept: */*
 Accept-Encoding: gzip, deflate
-Authorization: Basic amQ6MTIz
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjczOTM5NTQ0LCJpYXQiOjE2NzM5MzkyNDQsImp0aSI6ImMzOGQzYWMyNzVkMDQ5N2ViMzVlYmZlMzcxYzU3MzMyIiwidXNlcl9pZCI6MX0.R4mlPcPJqD9WPhO2ifcAiX6L428xiI1FESkt9Vmm2FM
 Connection: keep-alive
 Content-Length: 0
 Host: localhost:8000
@@ -689,10 +762,10 @@ HTTP/1.1 204 No Content
 Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 Content-Length: 0
 Cross-Origin-Opener-Policy: same-origin
-Date: Tue, 17 Jan 2023 06:03:05 GMT
+Date: Tue, 17 Jan 2023 07:08:49 GMT
 Referrer-Policy: same-origin
 Server: WSGIServer/0.2 CPython/3.8.3
-Vary: Accept, Cookie
+Vary: Accept
 X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 ```
